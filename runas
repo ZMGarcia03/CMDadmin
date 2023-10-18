@@ -1,0 +1,21 @@
+import subprocess
+import sys
+
+def run_cmd_as_admin(command):
+    try:
+        if sys.platform == 'win32':
+            # On Windows, use 'runas' to run the command as admin
+            subprocess.run(['runas', '/user:Administrator', 'cmd', '/c', command], check=True)
+        elif sys.platform == 'linux':
+            # On Linux, use 'sudo' to run the command as admin
+            subprocess.run(['sudo', command], check=True)
+        else:
+            print("Unsupported platform.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error: {e}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+if __name__ == "__main__":
+    command_to_run = "your_command_here"
+    run_cmd_as_admin(command_to_run)
